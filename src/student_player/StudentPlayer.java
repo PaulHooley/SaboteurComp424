@@ -29,7 +29,13 @@ public class StudentPlayer extends SaboteurPlayer {
 
         //General strat - hoard cards then slowly build towards destination, once 2 tiles away from winning start spamming malus,
         //if they build to make it 1 away then we win. Our only loss is that they begin turn with gold 2 tiles away and we are malus'ed
-        //We need some solid logic for tile plays to optimize our paths 
+        //We need some solid logic for tile plays to optimize our paths
+    	
+    	// Use maps early
+    	
+    	// Try to keep in hand at least one through path in each direction (left->right and top->bottom)
+    	// Try to keep one malus in hand -> use this if they get within 2 tiles
+    	// 
 
         //Big assumption is that there is a max number of cards we can hold if there is not then just mf grab a whole bunch as long as we have more then them 
         
