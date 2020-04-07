@@ -35,7 +35,7 @@ public class StudentPlayer extends SaboteurPlayer {
     	
     	// Try to keep in hand at least one through path in each direction (left->right and top->bottom)
     	// Try to keep one malus in hand -> use this if they get within 2 tiles
-    	// 
+    	// *******************************
 
         //Big assumption is that there is a max number of cards we can hold if there is not then just mf grab a whole bunch as long as we have more then them 
         
