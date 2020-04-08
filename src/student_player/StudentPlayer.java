@@ -55,11 +55,9 @@ public class StudentPlayer extends SaboteurPlayer {
         Boolean malus = false;
         Boolean opponentMalus = false;
     	///////////////////////////////////
-        
-        MyTools.getSomething();
 
         // Is random the best you can do?
-        Move myMove = boardState.getRandomMove();
+        Move myMove = MyTools.closestToGold(posMoves, boardState, myHand);
 
         // Return your move to be processed by the server.
         return myMove;
