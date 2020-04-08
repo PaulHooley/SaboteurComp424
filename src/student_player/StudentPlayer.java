@@ -3,6 +3,11 @@ package student_player;
 import boardgame.Move;
 
 import Saboteur.SaboteurPlayer;
+import Saboteur.cardClasses.SaboteurCard;
+import Saboteur.cardClasses.SaboteurTile;
+
+import java.util.ArrayList;
+
 import Saboteur.SaboteurBoardState;
 
 /** A player file submitted by a student. */
@@ -23,6 +28,32 @@ public class StudentPlayer extends SaboteurPlayer {
      * make decisions.
      */
     public Move chooseMove(SaboteurBoardState boardState) {
+    	
+    	ArrayList<SaboteurCard> myHand = boardState.getCurrentPlayerCards();
+    	SaboteurTile[][] hiddenBoard = boardState.getHiddenBoard();
+    	int numMalus;
+    	if (boardState.getTurnPlayer()==1) {
+    		numMalus = boardState.getNbMalus(1);
+    	}
+    	else {
+    		numMalus =  boardState.getNbMalus(2);
+    	}
+    	
+    	//////////////////////////////////
+    	int[] gold = {-1, -1, -1};
+        Boolean goldKnown = false;
+        Boolean malus = false;
+        Boolean opponentMalus = false;
+    	///////////////////////////////////
+        
+        MyTools.getSomething();
+
+        // Is random the best you can do?
+        Move myMove = boardState.getRandomMove();
+
+        // Return your move to be processed by the server.
+        return myMove;
+    	
         // You probably will make separate functions in MyTools.
         // For example, maybe you'll need to load some pre-processed best opening
         // strategies...
@@ -39,10 +70,43 @@ public class StudentPlayer extends SaboteurPlayer {
 
         //Big assumption is that there is a max number of cards we can hold if there is not then just mf grab a whole bunch as long as we have more then them 
         
-        int[] gold = {-1, -1, -1};
-        Boolean goldKnown = false;
-        Boolean malus = false;
-        Boolean opponentMalus = false;
+        /*Cards allow can be played with paths from:
+         * "0" -> [i, j-2], [i, j+2], [i, j+-2] 
+         * "1" -> [i,j+2], [i, j-2]
+         * "2" -> []
+         * "3" -> []
+         * "4" -> []
+         * "5" -> []
+         * "6" -> []
+         * "7" -> []
+         * "8" -> []
+         * "9" -> []
+         * "10" -> []
+         * "11" -> []
+         * "12" -> []
+         * "13" -> []
+         * "14" -> []
+         * "15" -> []
+         */
+        
+        /*Cards allow movement to:
+         * "0" -> [i, j+-1]
+         * "1" -> []
+         * "2" -> []
+         * "3" -> []
+         * "4" -> []
+         * "5" -> []
+         * "6" -> []
+         * "7" -> []
+         * "8" -> []
+         * "9" -> []
+         * "10" -> []
+         * "11" -> []
+         * "12" -> []
+         * "13" -> []
+         * "14" -> []
+         * "15" -> []
+         */
          
         //If we are Malus 
             //blow up mine if they have less than 1 build tile and have a winning play -- one specific usecase that might save us late game
@@ -58,23 +122,7 @@ public class StudentPlayer extends SaboteurPlayer {
             //If holding !=0 maps discard one
             //play tile towards gold -- or blow up if we can create a path all the way but a tile messes it up
         //Else 
-            //Draw either tile or action card -- depending on scenario 
-
-
-
-
-
-
-
-
-
-
-        MyTools.getSomething();
-
-        // Is random the best you can do?
-        Move myMove = boardState.getRandomMove();
-
-        // Return your move to be processed by the server.
-        return myMove;
+            //Draw either tile or action card -- depending on scenario
+    	
     }
 }
