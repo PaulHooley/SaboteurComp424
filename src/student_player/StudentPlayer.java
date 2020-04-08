@@ -9,6 +9,7 @@ import Saboteur.cardClasses.SaboteurTile;
 import java.util.ArrayList;
 
 import Saboteur.SaboteurBoardState;
+import Saboteur.SaboteurMove;
 
 /** A player file submitted by a student. */
 public class StudentPlayer extends SaboteurPlayer {
@@ -31,13 +32,22 @@ public class StudentPlayer extends SaboteurPlayer {
     	
     	ArrayList<SaboteurCard> myHand = boardState.getCurrentPlayerCards();
     	SaboteurTile[][] hiddenBoard = boardState.getHiddenBoard();
-    	int numMalus;
+    	ArrayList<SaboteurMove> posMoves = boardState.getAllLegalMoves();
+    	
     	if (boardState.getTurnPlayer()==1) {
-    		numMalus = boardState.getNbMalus(1);
+    		int numMalus = boardState.getNbMalus(1);
+    		int oppNumMalus = boardState.getNbMalus(2);
     	}
     	else {
-    		numMalus =  boardState.getNbMalus(2);
+    		int numMalus =  boardState.getNbMalus(2);
+    		int oppNumMalus = boardState.getNbMalus(1);
     	}
+    	
+    	/////////////////////////////////////
+   
+    	/////////////////////////////////////
+    	
+    	
     	
     	//////////////////////////////////
     	int[] gold = {-1, -1, -1};
@@ -70,6 +80,8 @@ public class StudentPlayer extends SaboteurPlayer {
 
         //Big assumption is that there is a max number of cards we can hold if there is not then just mf grab a whole bunch as long as we have more then them 
         
+        
+        // Stopped filling in this part since i dont think its useful, as they provide lots of info
         /*Cards allow can be played with paths from:
          * "0" -> [i, j-2], [i, j+2], [i, j+-2] 
          * "1" -> [i,j+2], [i, j-2]
