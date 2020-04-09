@@ -25,19 +25,19 @@ public class MyTools {
     			if(((SaboteurTile) card).getPath()[1][1] == 1) { //If there is a through path
     				for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) { // for all possible moves using this tile card
     					//Check Each through path of the tile
-    					if(((SaboteurTile) card).getPath()[0][1] == 1 && closestMove > distToGold(tempPos[0], tempPos[1]-1)) { //Above
+    					if(((SaboteurTile) card).getPath()[0][1] == 1 && closestMove > distToGold(tempPos[0]-1, tempPos[1])) { //Above
     						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
     						closestMove = distToGold(tempPos[0], tempPos[1]);
     					}
-    					if(((SaboteurTile) card).getPath()[1][0] == 1 && closestMove > distToGold(tempPos[0]-1, tempPos[1])) { // Left
+    					if(((SaboteurTile) card).getPath()[1][0] == 1 && closestMove > distToGold(tempPos[0], tempPos[1])-1) { // Left
     						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
     						closestMove = distToGold(tempPos[0], tempPos[1]);
     					}
-    					if(((SaboteurTile) card).getPath()[1][2] == 1 && closestMove > distToGold(tempPos[0]+1, tempPos[1])) { //Right
+    					if(((SaboteurTile) card).getPath()[1][2] == 1 && closestMove > distToGold(tempPos[0], tempPos[1])+1) { //Right
     						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
     						closestMove = distToGold(tempPos[0], tempPos[1]);
     					}
-    					if(((SaboteurTile) card).getPath()[2][1] == 1 && closestMove > distToGold(tempPos[0], tempPos[1]+1)) { //Below
+    					if(((SaboteurTile) card).getPath()[2][1] == 1 && closestMove > distToGold(tempPos[0]+1, tempPos[1])) { //Below
     						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
     						closestMove = distToGold(tempPos[0], tempPos[1]);
     					}
