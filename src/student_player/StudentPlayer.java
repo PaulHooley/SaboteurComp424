@@ -7,6 +7,7 @@ import Saboteur.cardClasses.SaboteurCard;
 import Saboteur.cardClasses.SaboteurTile;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import Saboteur.SaboteurBoardState;
 import Saboteur.SaboteurMove;
@@ -33,6 +34,7 @@ public class StudentPlayer extends SaboteurPlayer {
     	ArrayList<SaboteurCard> myHand = boardState.getCurrentPlayerCards();
     	SaboteurTile[][] hiddenBoard = boardState.getHiddenBoard();
     	ArrayList<SaboteurMove> posMoves = boardState.getAllLegalMoves();
+    	Map<String, Integer> numCards = MyTools.numInHand(boardState, myHand);
     	
     	if (boardState.getTurnPlayer()==1) {
     		int numMalus = boardState.getNbMalus(1);

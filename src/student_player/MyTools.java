@@ -8,7 +8,6 @@ import Saboteur.cardClasses.SaboteurCard;
 import Saboteur.cardClasses.SaboteurTile;
 
 public class MyTools {
-    
     /* 
      * closestToGold should return the tile card and position to play if to make the move closest towards the middle hidden tile
      * needs to be optimized to move the towards the GOLD and with the proper card that connects to the gold
@@ -39,7 +38,69 @@ public class MyTools {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
-     * numInHand should return a dictionary
+     * returns true if we are malused and have a bonus card
+     * this should take HIGH priority in our move selection 
+     * behind winning or save-from-losing moves though
+     */
+    public static boolean canRemoveMalus(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) {
+    		if (numMalus>=1 && numCards.get("bonus")>=1) {
+    			return true;
+    		}
+    		else {
+    			return false;
+    		}
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * returns true if we have a map
+     */
+    public static boolean haveMap(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) {
+		if (numCards.get("map")>=1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * returns true if we have a destroy
+     */
+    public static boolean haveDestroy(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) {
+		if (numCards.get("destroy")>=1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * returns true if we have a malus card
+     */
+    public static boolean haveMalus(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) {
+		if (numCards.get("malus")>=1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * return current path or how long a path exists to (or from) the gold
+     * altered (should try to prioritize movement downwards) depth first search
+     * build a path that gets us as close to the goal as possible?
+     * INCOMPLETE
+     */
+    public static ArrayList<int[]> findPath(SaboteurBoardState boardState, int[] start, int[] end) {
+    	
+    	ArrayList<int[]> path = new ArrayList<>();
+    	return path;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * numInHand should return a dictionary defining our current hand
      */
     public static Map numInHand(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
     	Map<String, Integer> numCards = new HashMap<>();
@@ -145,7 +206,6 @@ public class MyTools {
     			numCards.replace("destroy", x, x+1);
     		}
     	}
-    	
     	return numCards;
     }
 }
