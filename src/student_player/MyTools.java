@@ -17,14 +17,30 @@ public class MyTools {
     	SaboteurMove nextMove = null;
     	SaboteurCard nextCard;
     	int[] nextPos;
-    	double closestMove = 1000.00;
+    	double closestMove = Double.MAX_VALUE;
+
     	
     	for (SaboteurCard card : myHand) { // for all cards in my hand
     		if (card instanceof SaboteurTile) { // if it is a tile card
-    			for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) { // for all possible moves using this tile card
-    				if (Math.sqrt( Math.pow(12-tempPos[0], 2) +  Math.pow(5-tempPos[1], 2))<closestMove) {
-    					nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
-    					closestMove = Math.sqrt( Math.pow(12-tempPos[0], 2) +  Math.pow(5-tempPos[1], 2));
+    			if(((SaboteurTile) card).getPath()[1][1] == 1) { //If there is a through path
+    				for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) { // for all possible moves using this tile card
+    					//Check Each through path of the tile
+    					if(((SaboteurTile) card).getPath()[0][1] == 1 && closestMove > distToGold(tempPos[0], tempPos[1]-1)) { //Above
+    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
+    						closestMove = distToGold(tempPos[0], tempPos[1]);
+    					}
+    					if(((SaboteurTile) card).getPath()[1][0] == 1 && closestMove > distToGold(tempPos[0]-1, tempPos[1])) { // Left
+    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
+    						closestMove = distToGold(tempPos[0], tempPos[1]);
+    					}
+    					if(((SaboteurTile) card).getPath()[1][2] == 1 && closestMove > distToGold(tempPos[0]+1, tempPos[1])) { //Right
+    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
+    						closestMove = distToGold(tempPos[0], tempPos[1]);
+    					}
+    					if(((SaboteurTile) card).getPath()[2][1] == 1 && closestMove > distToGold(tempPos[0], tempPos[1]+1)) { //Below
+    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
+    						closestMove = distToGold(tempPos[0], tempPos[1]);
+    					}
     				}
     			}
     		}
@@ -35,6 +51,9 @@ public class MyTools {
     	else {
     		return boardState.getRandomMove();
     	}
+    }
+    public static double distToGold(int x, int y) {
+    	return Math.sqrt( Math.pow(12-x, 2) +  Math.pow(5-y, 2));
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
