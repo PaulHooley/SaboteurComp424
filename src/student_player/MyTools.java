@@ -15,8 +15,6 @@ public class MyTools {
     public static SaboteurMove closestToGold(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
     	
     	SaboteurMove nextMove = null;
-    	SaboteurCard nextCard;
-    	int[] nextPos;
     	double closestMove = Double.MAX_VALUE;
     	for (SaboteurCard card : myHand) { // for all cards in my hand
     		if (card instanceof SaboteurTile) { // if it is a tile card
@@ -131,83 +129,28 @@ public class MyTools {
      * throughPath returns the Move that results in creating a through path from curr[i,j] to [i',j'], returns null if you can't
      */
     public static SaboteurMove throughPath(SaboteurBoardState boardState, int[] start, int[] end, SaboteurCard card) {
-    	SaboteurMove nextMove = null;
+    	ArrayList<SaboteurMove> legalMoves = boardState.getAllLegalMoves();
+    	SaboteurMove potMove = new SaboteurMove(card, start[0], start[1], 260727150);
     	// if the tile we are trying to build a through path to is further than 1 tile gap away, it can't be done
-    	if ((Math.abs(end[0]-start[0])+Math.abs(end[1]-start[1])) != 2) return null;
-    	//for (SaboteurCard card : myHand) { // for all cards in my hand
-    	if (card instanceof SaboteurTile) { // if it is a tile card
-    		// this is if the goal path is two to the up or down
-    		if (Math.abs(end[0]-start[0])==2 && (((SaboteurTile)card).getPath()[1] == new int[] {1,1,1})) {
-    			if (end[0]-start[0]==2 && boardState.isLegal( new SaboteurMove(card, start[0]+1, start[1], 260727150))) {
-    				nextMove = new SaboteurMove(card, start[0]+1, start[1], 260727150);
-    			}
-    			else if (end[0]-start[0]==-2 && boardState.isLegal(new SaboteurMove(card, start[0]-1, start[1], 260727150))){
-    				nextMove = new SaboteurMove(card, start[0]-1, start[1], 260727150);
-    			}
+    	if ((Math.abs(end[0]-start[0])+Math.abs(end[1]-start[1])) != 1) return null;
+    	if (card instanceof SaboteurTile && isElement(potMove, legalMoves)) { // if it is a tile card
+    		// this is if the goal path is two down
+    		if (end[0]-start[0]==-1 && ((SaboteurTile)card).getPath()[1][0]==1 && ((SaboteurTile)card).getPath()[1][1]==1) {
+    			return potMove;
     		}
-    		// this is if the goal path is 2 left or 2 right
-    		else if (Math.abs(end[1]-start[1])==2 && (transpose(((SaboteurTile)card).getPath())[1] == new int[] {1,1,1})) {
-    			if (end[1]-start[1]==2 && boardState.isLegal(new SaboteurMove(card, start[0], start[1]+1, 260727150))) {
-    				nextMove = new SaboteurMove(card, start[0], start[1]+1, 260727150);
-    			}
-    			else if (end[1]-start[1]==-2 && boardState.isLegal(new SaboteurMove(card, start[0], start[1]-1, 260727150))) {
-    				nextMove = new SaboteurMove(card, start[0], start[1]-1, 260727150);
-    			}
+    		// this is if the goal path is two down
+    		else if (end[0]-start[0]==1 && ((SaboteurTile)card).getPath()[1][1]==1 && ((SaboteurTile)card).getPath()[1][2]==1) {
+    			return potMove;
     		}
-    		// if we are trying to get down and to the right
-    		else if (end[0]-start[0]==1 && end[1]-start[1]==1) {
-    			if ((((SaboteurTile)card).getPath()[0][1] == 1) && (((SaboteurTile)card).getPath()[1][0] == 1) && (((SaboteurTile)card).getPath()[1][1] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0], start[1]+1, 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0], start[1]+1, 260727150);
-    				}
-    			}
-    			else if ((((SaboteurTile)card).getPath()[1][1] == 1) && (((SaboteurTile)card).getPath()[1][2] == 1) && (((SaboteurTile)card).getPath()[2][1] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0]+1, start[1], 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0]+1, start[1], 260727150);
-    				}
-    			}
+    		else if (end[1]-start[1]==-1 && ((SaboteurTile)card).getPath()[0][1]==1 && ((SaboteurTile)card).getPath()[1][1]==1) {
+    			return potMove;
     		}
-    		// if we are trying to go down and to the left
-    		else if (end[0]-start[0]==1 && end[1]-start[1]==-1) {
-    			if ((((SaboteurTile)card).getPath()[0][1] == 1) && (((SaboteurTile)card).getPath()[1][1] == 1) && (((SaboteurTile)card).getPath()[1][2] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0]+1, start[1], 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0]+1, start[1], 260727150);
-    				}
-    			}
-    			else if ((((SaboteurTile)card).getPath()[1][0] == 1) && (((SaboteurTile)card).getPath()[1][1] == 1) && (((SaboteurTile)card).getPath()[2][1] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0], start[1]-1, 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0], start[1]-1, 260727150);
-    				}
-    			}
+    		// this is if the goal path is two down
+    		else if (end[1]-start[1]==1 && ((SaboteurTile)card).getPath()[1][1]==1 && ((SaboteurTile)card).getPath()[2][1]==1) {
+    			return potMove;
     		}
-    		// if we are trying to go up and to the right
-			else if (end[0]-start[0]==-1 && end[1]-start[1]==1) {
-				if ((((SaboteurTile)card).getPath()[0][1] == 1) && (((SaboteurTile)card).getPath()[1][1] == 1) && (((SaboteurTile)card).getPath()[1][2] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0], start[1]+1, 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0], start[1]+1, 260727150);
-    				}
-    			}
-    			else if ((((SaboteurTile)card).getPath()[1][0] == 1) && (((SaboteurTile)card).getPath()[1][1] == 1) && (((SaboteurTile)card).getPath()[2][1] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0]-1, start[1], 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0]-1, start[1], 260727150);
-    				}
-    			}
-			}
-    		// if we are trying to go up and to the left
-			else if (end[0]-start[0]==-1 && end[1]-start[1]==-1) {
-				if ((((SaboteurTile)card).getPath()[0][1] == 1) && (((SaboteurTile)card).getPath()[1][0] == 1) && (((SaboteurTile)card).getPath()[1][1] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0]-1, start[1], 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0]-1, start[1], 260727150);
-    				}
-    			}
-    			else if ((((SaboteurTile)card).getPath()[1][1] == 1) && (((SaboteurTile)card).getPath()[1][2] == 1) && (((SaboteurTile)card).getPath()[2][1] == 1)) {
-    				if (boardState.isLegal(new SaboteurMove(card, start[0], start[1]-1, 260727150))) {
-    					nextMove = new SaboteurMove(card, start[0], start[1]-1, 260727150);
-    				}
-    			}
-			}		
-    	}
-    	return nextMove;
+    	}	
+    	return null;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public static ArrayList<int[]> notEmptySurr(int[] currPos, SaboteurBoardState boardState) {
@@ -268,26 +211,21 @@ public class MyTools {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-//    public static SaboteurMove closestToGold1(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
-//    	SaboteurMove nextMove = null;
-//    	
-//    	for (SaboteurCard card : myHand) { // for all cards in my hand
-//    		if (card instanceof SaboteurTile) { // if it is a tile card
-//		    	for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) { // for all possible moves using this tile card
-//		    		for (int[] endPos : surr(tempPos, boardState)) {
-//		    			for (int[] startPos : notEmptySurr(tempPos, boardState)) {
-//		    				SaboteurMove tempMove = throughPath(boardState, startPos, endPos, card);
-//		    				if (tempMove!=null && isElement(tempMove, boardState.getAllLegalMoves()) &&boardState.verifyLegit(((SaboteurTile) card).getPath(),tempMove.getPosPlayed())) {
-//		    					System.out.println("****************");
-//		    					return tempMove;
-//		    				}
-//		    			}
-//		    		}
-//		    	}
-//		    }
-//		}
-//    	return closestToGold(boardState, myHand);
-//    }
+    public static SaboteurMove closestToGold1(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
+    	for (SaboteurCard card : myHand) { // for all cards in my hand
+    		if (card instanceof SaboteurTile) { // if it is a tile card
+		    	for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) {// for all possible moves using this tile card
+		    		for (int[] endPos : surr(tempPos, boardState)) {
+		    			SaboteurMove option = throughPath(boardState, tempPos, endPos, card);
+			    		if (option!=null) {
+			    			return option;
+			    		}
+		    		}
+		    	}
+		    }
+		}
+    	return closestToGold(boardState, myHand);
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
      * numInHand should return a dictionary defining our current hand

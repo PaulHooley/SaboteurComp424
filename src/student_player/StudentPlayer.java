@@ -59,7 +59,8 @@ public class StudentPlayer extends SaboteurPlayer {
     	///////////////////////////////////
 
         // Is random the best you can do?
-        return MyTools.closestToGold(boardState, myHand);
+        if (boardState.getTurnNumber()<=20) return MyTools.closestToGold(boardState, myHand);
+        else return MyTools.closestToGold1(boardState, myHand);
 
         // Return your move to be processed by the server
     	
