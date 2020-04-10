@@ -36,13 +36,15 @@ public class StudentPlayer extends SaboteurPlayer {
     	ArrayList<SaboteurMove> posMoves = boardState.getAllLegalMoves();
     	Map<String, Integer> numCards = MyTools.numInHand(boardState, myHand);
     	
+    	int numMalus;
+    	int oppNumMalus;
     	if (boardState.getTurnPlayer()==1) {
-    		int numMalus = boardState.getNbMalus(1);
-    		int oppNumMalus = boardState.getNbMalus(2);
+    		numMalus = boardState.getNbMalus(1);
+    		oppNumMalus = boardState.getNbMalus(2);
     	}
     	else {
-    		int numMalus =  boardState.getNbMalus(2);
-    		int oppNumMalus = boardState.getNbMalus(1);
+    		numMalus =  boardState.getNbMalus(2);
+    		oppNumMalus = boardState.getNbMalus(1);
     	}
     	
     	/////////////////////////////////////
@@ -58,9 +60,24 @@ public class StudentPlayer extends SaboteurPlayer {
         Boolean opponentMalus = false;
     	///////////////////////////////////
 
-        // Is random the best you can do?
-        if (boardState.getTurnNumber()<=20) return MyTools.closestToGold(boardState, myHand);
-        else return MyTools.closestToGold1(boardState, myHand);
+        // If we are malused
+        SaboteurMove testMove = MyTools.areMalused(boardState, myHand, numMalus, numCards);
+        if (testMove!=null) {
+        	return testMove;
+        }
+        // if we have a map and not all hidden tiles are revealed
+        testMove = MyTools.haveMap(boardState, myHand, numCards);
+        if (testMove!=null) {
+        	return testMove;
+        }
+        // if we are far enough away from the gold
+        testMove = MyTools.closestToGold(boardState, myHand);
+        if (boardState.getTurnNumber()<=20) {
+        	return testMove;
+        }
+        // if we are close to the gold
+        testMove = MyTools.inTight(boardState, myHand);
+        return testMove;
 
         // Return your move to be processed by the server
     	

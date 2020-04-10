@@ -4,8 +4,7 @@ import java.util.*;
 
 import Saboteur.SaboteurBoardState;
 import Saboteur.SaboteurMove;
-import Saboteur.cardClasses.SaboteurCard;
-import Saboteur.cardClasses.SaboteurTile;
+import Saboteur.cardClasses.*;
 
 public class MyTools {
     /* 
@@ -53,29 +52,69 @@ public class MyTools {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
+     * returns the index of the first instance of a given card type, -1 if you don't have an instance in your hand
+     */
+    public static int cardIndex(ArrayList<SaboteurCard> myHand, SaboteurCard card) {
+    	int i=0;
+    	for (SaboteurCard tempCard: myHand) {
+    		if (tempCard.getName()==card.getName()) {
+    			return i;
+    		}
+    		i++;
+    	}
+    	return -1;
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /*
      * returns true if we are malused and have a bonus card
      * this should take HIGH priority in our move selection 
      * behind winning or save-from-losing moves though
      */
-    public static boolean canRemoveMalus(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) {
-    		if (numMalus>=1 && numCards.get("bonus")>=1) {
-    			return true;
+    public static SaboteurMove areMalused(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) { 
+    	if (numMalus>=1) {
+    		if (cardIndex( myHand, new SaboteurBonus())!=-1) {
+	    		return new SaboteurMove(new SaboteurBonus(), 0, 0, 260727150);
+    		}
+    		else if (cardIndex( myHand, new SaboteurMap())!=-1) {
+	    		SaboteurMove testMove = haveMap(boardState, myHand, numCards);
+	    		if (testMove!=null) {
+	    			return testMove;
+	    		}
+	    		else if (cardIndex(myHand, new SaboteurDestroy())!=-1) {
+	    			return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurDestroy()), 0, 260727150);
+	    		}
+	    		else if (cardIndex(myHand, new SaboteurMalus())!=-1) {
+	    			return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurMalus()), 0, 260727150);
+	    		}
+	    		else {
+	    			return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurMap()), 0, 260727150);
+	    		}
     		}
     		else {
-    			return false;
+    			return new SaboteurMove(new SaboteurDrop(), 0, 0, 260727150);
     		}
+    	}
+    	else {
+    		return null;
+    	}
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
      * returns true if we have a map
      */
-    public static boolean haveMap(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) {
-		if (numCards.get("map")>=1) {
-			return true;
-		}
-		else {
-			return false;
-		}
+    public static SaboteurMove haveMap(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, Map<String, Integer> numCards) {
+    	if (cardIndex( myHand, new SaboteurMap())!=-1) {
+    		if (boardState.getHiddenBoard()[12][3]==null) {
+    			return new SaboteurMove(new SaboteurMap(), 12, 3, 260727150);
+    		}
+    		else if (boardState.getHiddenBoard()[12][5]==null) {
+    			return new SaboteurMove(new SaboteurMap(), 12, 5, 260727150);
+    		}
+    		else if (boardState.getHiddenBoard()[12][7]==null) {
+    			return new SaboteurMove(new SaboteurMap(), 12, 7, 260727150);
+    		}
+    	}
+    	return null;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
@@ -211,7 +250,7 @@ public class MyTools {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    public static SaboteurMove closestToGold1(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
+    public static SaboteurMove inTight(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
     	for (SaboteurCard card : myHand) { // for all cards in my hand
     		if (card instanceof SaboteurTile) { // if it is a tile card
 		    	for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) {// for all possible moves using this tile card
@@ -253,83 +292,83 @@ public class MyTools {
 	    	numCards.put("map", 0); 
     	int x;
     	for (SaboteurCard card : myHand) { // for all cards in my hand
-    		if (card.getName() == "0") {
+    		if (card.getName().compareTo("0")==0) {
     			x = numCards.get("0");
     			numCards.replace("0", x, x+1);
     		}
-    		else if (card.getName() == "1") {
+    		else if (card.getName().compareTo("1")==0) {
     			x = numCards.get("1");
     			numCards.replace("1", x, x+1);
     		}
-    		else if (card.getName() == "2") {
+    		else if (card.getName().compareTo("2")==0) {
     			x = numCards.get("2");
     			numCards.replace("2", x, x+1);
     		}
-    		else if (card.getName() == "3") {
+    		else if (card.getName().compareTo("3")==0) {
     			x = numCards.get("3");
     			numCards.replace("3", x, x+1);
     		}
-    		else if (card.getName() == "4") {
+    		else if (card.getName().compareTo("4")==0) {
     			x = numCards.get("4");
     			numCards.replace("4", x, x+1);
     		}
-    		else if (card.getName() == "5") {
+    		else if (card.getName().compareTo("5")==0) {
     			x = numCards.get("5");
     			numCards.replace("5", x, x+1);
     		}
-    		else if (card.getName() == "6") {
+    		else if (card.getName().compareTo("6")==0) {
     			x = numCards.get("6");
     			numCards.replace("6", x, x+1);
     		}
-    		else if (card.getName() == "7") {
+    		else if (card.getName().compareTo("7")==0) {
     			x = numCards.get("7");
     			numCards.replace("7", x, x+1);
     		}
-    		else if (card.getName() == "8") {
+    		else if (card.getName().compareTo("8")==0) {
     			x = numCards.get("8");
     			numCards.replace("8", x, x+1);
     		}
-    		else if (card.getName() == "9") {
+    		else if (card.getName().compareTo("9")==0) {
     			x = numCards.get("9");
     			numCards.replace("9", x, x+1);
     		}
-    		else if (card.getName() == "10") {
+    		else if (card.getName().compareTo("10")==0) {
     			x = numCards.get("10");
     			numCards.replace("10", x, x+1);
     		}
-    		else if (card.getName() == "11") {
+    		else if (card.getName().compareTo("11")==0) {
     			x = numCards.get("11");
     			numCards.replace("11", x, x+1);
     		}
-    		else if (card.getName() == "12") {
+    		else if (card.getName().compareTo("12")==0) {
     			x = numCards.get("12");
     			numCards.replace("12", x, x+1);
     		}
-    		else if (card.getName() == "13") {
+    		else if (card.getName().compareTo("13")==0) {
     			x = numCards.get("13");
     			numCards.replace("13", x, x+1);
     		}
-    		else if (card.getName() == "14") {
+    		else if (card.getName().compareTo("14")==0) {
     			x = numCards.get("14");
     			numCards.replace("14", x, x+1);
     		}
-    		else if (card.getName() == "15") {
+    		else if (card.getName().compareTo("15")==0) {
     			x = numCards.get("15");
     			numCards.replace("15", x, x+1);
     		}
-    		else if (card.getName() == "malus") {
+    		else if (card.getName().compareTo("malus")==0) {
     			x = numCards.get("malus");
     			numCards.replace("malus", x, x+1);
     		}
-    		else if (card.getName() == "map") {
+    		else if (card.getName().compareTo("map")==0) {
     			x = numCards.get("map");
     			numCards.replace("map", x, x+1);
     		}
-    		else if (card.getName() == "bonus") {
+    		else if (card.getName().compareTo("bonus")==0) {
     			x = numCards.get("bonus");
     			numCards.replace("bonus", x, x+1);
     		}
-    		else  {
+    		else if (card.getName().compareTo("destroy")==0) {
     			x = numCards.get("destroy");
     			numCards.replace("destroy", x, x+1);
     		}
