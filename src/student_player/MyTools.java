@@ -307,11 +307,11 @@ public class MyTools {
     	
     	if(intBoard[y+1][x] == 1 && visitBoard[y+1][x] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x, y+1, goldX, goldY));
     	
-    	else if(intBoard[y][x+1] == 1 && visitBoard[y][x + 1] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x+1, y, goldX, goldY));
+    	if(intBoard[y][x+1] == 1 && visitBoard[y][x + 1] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x+1, y, goldX, goldY));
     	
-    	else if(intBoard[y][x-1] == 1 && visitBoard[y][x - 1] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x-1, y, goldX, goldY));
+    	if(intBoard[y][x-1] == 1 && visitBoard[y][x - 1] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x-1, y, goldX, goldY));
     	
-    	else if(intBoard[y-1][x] == 1 && visitBoard[y-1][x] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x, y-1, goldX, goldY));
+    	if(intBoard[y-1][x] == 1 && visitBoard[y-1][x] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x, y-1, goldX, goldY));
 
     	return curShortestDistToGold;
     }
