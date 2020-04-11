@@ -432,6 +432,44 @@ public class MyTools {
 
     	return curShortestDistToGold;
     }
+    /////////////////////////////////////////
+    /*
+     *  connected returns true if the two tiles played at their given positions will have a connected path between them
+     */
+    public static boolean connected(SaboteurTile t1, int[] p1, SaboteurTile t2, int[] p2) {
+    	int[][] t1path = t1.getPath();
+    	int[][] t2path = t2.getPath();
+    	if (Math.abs(p1[0]-p2[0])+Math.abs(p1[1]-p2[1])>1 || t1==null || t2==null || t1path[1][1]!=1 || t2path[1][1]!=1) {
+    		return false;
+    	}
+    	else {
+    		// if p1 is below p2
+    		if (p1[0]-p2[0]==1) {
+    			if (t1path[1][2]==1 && t2path[1][0]==1) {
+    				return true;
+    			}
+    		}
+    		// if p1 is above p2
+    		else if (p1[0]-p2[0]==-1) {
+    			if (t1path[1][0]==1 && t2path[1][2]==1) {
+    				return true;
+    			}
+    		}
+    		// if p1 is to the right of p2
+    		else if (p1[1]-p2[1]==1) {
+    			if (t1path[0][1]==1 && t2path[2][1]==1) {
+    				return true;
+    			}
+    		}
+    		// if p1 is to the left of p2
+    		else if (p1[1]-p2[1]==-1) {
+    			if (t1path[2][1]==1 && t2path[0][1]==1) {
+    				return true;
+    			}
+    		}
+    	}
+    	return false;
+    }
  
 }
 

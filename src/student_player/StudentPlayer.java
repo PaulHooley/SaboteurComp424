@@ -30,7 +30,14 @@ public class StudentPlayer extends SaboteurPlayer {
      * make decisions.
      */
     public Move chooseMove(SaboteurBoardState boardState) {
-    	
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("0"), new int[] {2,1}));
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("1"), new int[] {2,1}));
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("2"), new int[] {2,1}));
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("3"), new int[] {2,1}));
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("4"), new int[] {2,1}));
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("8"), new int[] {2,1}));
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("12"), new int[] {2,1}));
+//    	System.out.println(MyTools.connected(new SaboteurTile("0"), new int[] {1,1},new SaboteurTile("7"), new int[] {2,1}));
     	ArrayList<SaboteurCard> myHand = boardState.getCurrentPlayerCards();
     	SaboteurTile[][] hiddenBoard = boardState.getHiddenBoard();
     	ArrayList<SaboteurMove> posMoves = boardState.getAllLegalMoves();
@@ -50,8 +57,6 @@ public class StudentPlayer extends SaboteurPlayer {
     	/////////////////////////////////////
    
     	/////////////////////////////////////
-    	
-    	
     	
     	//////////////////////////////////
     	int[] gold = {-1, -1, -1};
@@ -98,45 +103,6 @@ public class StudentPlayer extends SaboteurPlayer {
         //Big assumption is that there is a max number of cards we can hold if there is not then just mf grab a whole bunch as long as we have more then them 
         
         
-        // Stopped filling in this part since i dont think its useful, as they provide lots of info
-        /*Cards allow can be played with paths from:
-         * "0" -> [i, j-2], [i, j+2], [i, j+-2] 
-         * "1" -> [i,j+2], [i, j-2]
-         * "2" -> []
-         * "3" -> []
-         * "4" -> []
-         * "5" -> []
-         * "6" -> []
-         * "7" -> []
-         * "8" -> []
-         * "9" -> []
-         * "10" -> []
-         * "11" -> []
-         * "12" -> []
-         * "13" -> []
-         * "14" -> []
-         * "15" -> []
-         */
-        
-        /*Cards allow movement to:
-         * "0" -> [i, j+-1]
-         * "1" -> []
-         * "2" -> []
-         * "3" -> []
-         * "4" -> []
-         * "5" -> []
-         * "6" -> []
-         * "7" -> []
-         * "8" -> []
-         * "9" -> []
-         * "10" -> []
-         * "11" -> []
-         * "12" -> []
-         * "13" -> []
-         * "14" -> []
-         * "15" -> []
-         */
-         
         //If we are Malus 
             //blow up mine if they have less than 1 build tile and have a winning play -- one specific usecase that might save us late game
             //Otherwise use bonus -- loss condition is their turn 2 away to gold and we are malus'ed
