@@ -37,10 +37,7 @@ public class MyTools {
     					intBoard[tempPos[0] * 3 + 2][tempPos[1] * 3 + 1] = intCard[1][0];
     					intBoard[tempPos[0] * 3 + 2][tempPos[1] * 3 + 2] = intCard[2][0];
     					
-    					
-//    					for(int[] row: intCard) {
-//    						System.out.println(Arrays.toString(row));
-//    					}
+
     					System.out.println("This is boardGame time");// Print out the board with the new temp card
     			        for(int[] row: intBoard) {
     			        	System.out.println(Arrays.toString(row));
@@ -52,29 +49,12 @@ public class MyTools {
     			        		visitBoard[i][j] = 0;
     			        	}
     			        }
-    			        int tmp = recursiveFindPlay(intBoard, visitBoard, Integer.MAX_VALUE, 17, 17, 38, 17);
+    			        int tmp = recursiveFindPlay(intBoard, visitBoard, Integer.MAX_VALUE, 16, 16, 16, 37);
     			        System.out.println("Tmp: " + tmp + " closestMove: "+ closestMove);
     			        if(closestMove > tmp) {
     			        	closestMove = tmp;
     			        	nextMove = new SaboteurMove(card, tempPos[0], tempPos[1],boardState.getTurnPlayer());
     			        }
-    			        
-//    					if(((SaboteurTile) card).getPath()[0][1] == 1 && closestMove > distToGold(tempPos[0]-1, tempPos[1])) { //Above
-//    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
-//    						closestMove = distToGold(tempPos[0], tempPos[1]);
-//    					}
-//    					if(((SaboteurTile) card).getPath()[1][0] == 1 && closestMove > distToGold(tempPos[0], tempPos[1])-1) { // Left
-//    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
-//    						closestMove = distToGold(tempPos[0], tempPos[1]);
-//    					}
-//    					if(((SaboteurTile) card).getPath()[1][2] == 1 && closestMove > distToGold(tempPos[0], tempPos[1])+1) { //Right
-//    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
-//    						closestMove = distToGold(tempPos[0], tempPos[1]);
-//    					}
-//    					if(((SaboteurTile) card).getPath()[2][1] == 1 && closestMove > distToGold(tempPos[0]+1, tempPos[1])) { //Below
-//    						nextMove = new SaboteurMove(card, tempPos[0], tempPos[1], 260727150);
-//    						closestMove = distToGold(tempPos[0], tempPos[1]);
-//    					}
     				}
     			}
     		}
@@ -418,6 +398,7 @@ public class MyTools {
     ////////////////////////////
     public static int recursiveFindPlay(int[][] intBoard, int[][] visitBoard, int curShortestDistToGold,int x, int y, int goldX, int goldY) {
     	visitBoard[y][x] = 1;
+//    	System.out.println("x: " + x + " y: " + y + " goldX: " + goldX + " goldY: " + goldY);
     	if(curShortestDistToGold > Math.abs(x-goldX) + Math.abs(y-goldY)) {
     		curShortestDistToGold = Math.abs(x-goldX) + Math.abs(y-goldY);
     	}
