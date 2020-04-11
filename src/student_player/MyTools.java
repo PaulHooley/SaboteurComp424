@@ -38,10 +38,10 @@ public class MyTools {
     					intBoard[tempPos[0] * 3 + 2][tempPos[1] * 3 + 2] = intCard[2][0];
     					
 
-    					System.out.println("This is boardGame time");// Print out the board with the new temp card
-    			        for(int[] row: intBoard) {
-    			        	System.out.println(Arrays.toString(row));
-    			        }
+//    					System.out.println("This is boardGame time");// Print out the board with the new temp card
+//    			        for(int[] row: intBoard) {
+//    			        	System.out.println(Arrays.toString(row));
+//    			        }
     			        
     			        int[][] visitBoard = new int[intBoard.length][intBoard[0].length];
     			        for(int i = 0; i < intBoard.length; i++) {
@@ -291,107 +291,9 @@ public class MyTools {
      */
     public static Map numInHand(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
     	Map<String, Integer> numCards = new HashMap<>();
-	    	numCards.put("0", 0);
-	   		numCards.put("1", 0);
-	  		numCards.put("2", 0);
-	  		numCards.put("3", 0);
-	    	numCards.put("4", 0);
-	    	numCards.put("5", 0);
-	    	numCards.put("6", 0);
-	    	numCards.put("7", 0);
-	    	numCards.put("9", 0);
-	    	numCards.put("10", 0);
-	    	numCards.put("11", 0);
-	    	numCards.put("12", 0);
-	    	numCards.put("13", 0);
-	    	numCards.put("14", 0);
-	    	numCards.put("15", 0);
-	    	numCards.put("destroy", 0);
-	    	numCards.put("bonus", 0);
-	    	numCards.put("malus", 0);
-	    	numCards.put("map", 0); 
-    	int x;
-    	for (SaboteurCard card : myHand) { // for all cards in my hand
-    		if (card.getName().compareTo("0")==0) {
-    			x = numCards.get("0");
-    			numCards.replace("0", x, x+1);
-    		}
-    		else if (card.getName().compareTo("1")==0) {
-    			x = numCards.get("1");
-    			numCards.replace("1", x, x+1);
-    		}
-    		else if (card.getName().compareTo("2")==0) {
-    			x = numCards.get("2");
-    			numCards.replace("2", x, x+1);
-    		}
-    		else if (card.getName().compareTo("3")==0) {
-    			x = numCards.get("3");
-    			numCards.replace("3", x, x+1);
-    		}
-    		else if (card.getName().compareTo("4")==0) {
-    			x = numCards.get("4");
-    			numCards.replace("4", x, x+1);
-    		}
-    		else if (card.getName().compareTo("5")==0) {
-    			x = numCards.get("5");
-    			numCards.replace("5", x, x+1);
-    		}
-    		else if (card.getName().compareTo("6")==0) {
-    			x = numCards.get("6");
-    			numCards.replace("6", x, x+1);
-    		}
-    		else if (card.getName().compareTo("7")==0) {
-    			x = numCards.get("7");
-    			numCards.replace("7", x, x+1);
-    		}
-    		else if (card.getName().compareTo("8")==0) {
-    			x = numCards.get("8");
-    			numCards.replace("8", x, x+1);
-    		}
-    		else if (card.getName().compareTo("9")==0) {
-    			x = numCards.get("9");
-    			numCards.replace("9", x, x+1);
-    		}
-    		else if (card.getName().compareTo("10")==0) {
-    			x = numCards.get("10");
-    			numCards.replace("10", x, x+1);
-    		}
-    		else if (card.getName().compareTo("11")==0) {
-    			x = numCards.get("11");
-    			numCards.replace("11", x, x+1);
-    		}
-    		else if (card.getName().compareTo("12")==0) {
-    			x = numCards.get("12");
-    			numCards.replace("12", x, x+1);
-    		}
-    		else if (card.getName().compareTo("13")==0) {
-    			x = numCards.get("13");
-    			numCards.replace("13", x, x+1);
-    		}
-    		else if (card.getName().compareTo("14")==0) {
-    			x = numCards.get("14");
-    			numCards.replace("14", x, x+1);
-    		}
-    		else if (card.getName().compareTo("15")==0) {
-    			x = numCards.get("15");
-    			numCards.replace("15", x, x+1);
-    		}
-    		else if (card.getName().compareTo("malus")==0) {
-    			x = numCards.get("malus");
-    			numCards.replace("malus", x, x+1);
-    		}
-    		else if (card.getName().compareTo("map")==0) {
-    			x = numCards.get("map");
-    			numCards.replace("map", x, x+1);
-    		}
-    		else if (card.getName().compareTo("bonus")==0) {
-    			x = numCards.get("bonus");
-    			numCards.replace("bonus", x, x+1);
-    		}
-    		else if (card.getName().compareTo("destroy")==0) {
-    			x = numCards.get("destroy");
-    			numCards.replace("destroy", x, x+1);
-    		}
+    	for(SaboteurCard card : myHand) {
+    		int count = numCards.getOrDefault(card.getName(), 0);
+    		numCards.put(card.getName(), count+1);
     	}
     	return numCards;
     }
