@@ -506,18 +506,46 @@ public class MyTools {
     		for (int j = 3; j<8; j++) {
     			for (SaboteurMove move : legalMoves) {
     				if (move.getPosPlayed()[0] == i && move.getPosPlayed()[1] == j) {
-	    				if (move.getCardPlayed().getName().equals("Tile:0")) {
-	    					return move;
-	    				}
-	    				else if (move.getCardPlayed().getName().contains("6")) {
-	    					return move;
-	    				}
-	    				else if (move.getCardPlayed().getName().contains("8")) {
-	    					return move;
-	    				}
-	    				else if (move.getCardPlayed().getName().contains("9_flip")) {
-	    					return move;
-	    				}
+    					if (move.getCardPlayed().getName().equals("Tile:0")) {
+    						for (int[] surrs : surr(move.getPosPlayed(), boardState)) {
+    							SaboteurTile besideTile = boardState.getHiddenBoard()[surrs[0]][surrs[1]];
+    							if (besideTile!=null) {
+	    							if (connected(besideTile, surrs, (SaboteurTile)move.getCardPlayed(), new int[] {i,j})) { 
+	    								return move;
+	    							}
+	    						}
+    						}
+    					}
+    					else if (move.getCardPlayed().getName().contains("6")) {
+    						for (int[] surrs : surr(move.getPosPlayed(), boardState)) {
+    							SaboteurTile besideTile = boardState.getHiddenBoard()[surrs[0]][surrs[1]];
+    							if (besideTile!=null) {
+	    							if (connected(besideTile, surrs, (SaboteurTile)move.getCardPlayed(), new int[] {i,j})) { 
+	    								return move;
+	    							}
+	    						}
+    						}
+    					}
+    					else if (move.getCardPlayed().getName().contains("8")) {
+    						for (int[] surrs : surr(move.getPosPlayed(), boardState)) {
+    							SaboteurTile besideTile = boardState.getHiddenBoard()[surrs[0]][surrs[1]];
+    							if (besideTile!=null) {
+	    							if (connected(besideTile, surrs, (SaboteurTile)move.getCardPlayed(), new int[] {i,j})) { 
+	    								return move;
+	    							}
+	    						}
+    						}
+    					}
+    					else if (move.getCardPlayed().getName().contains("9_flip")) {
+    						for (int[] surrs : surr(move.getPosPlayed(), boardState)) {
+    							SaboteurTile besideTile = boardState.getHiddenBoard()[surrs[0]][surrs[1]];
+    							if (besideTile!=null) {
+	    							if (connected(besideTile, surrs, (SaboteurTile)move.getCardPlayed(), new int[] {i,j})) { 
+	    								return move;
+	    							}
+	    						}
+    						}
+    					}
     				}
     			}
     		}
