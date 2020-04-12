@@ -474,27 +474,27 @@ public class MyTools {
     	for (int i = 11; i>5; i--) {
     		for (int j = 3; j<8; j++) {
     			for (SaboteurMove move : legalMoves) {
-    				if (Arrays.equals(move.getPosPlayed(), new int[] {i,j})) {
-	    				if (move.getCardPlayed().getName()=="0") {
+    				if (move.getPosPlayed()[0] == i && move.getPosPlayed()[1] == j) {
+	    				if (move.getCardPlayed().getName().contains("0")) {
 	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
-	    				else if (move.getCardPlayed().getName()=="6") {
+	    				else if (move.getCardPlayed().getName().contains("6")) {
 	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
-	    				else if (move.getCardPlayed().getName()=="6_flip") {
+//	    				else if (move.getCardPlayed().getName()=="6_flip") {
+//	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+//	    					return move;
+//	    				}
+	    				else if (move.getCardPlayed().getName().contains("8")) {
 	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
-	    				else if (move.getCardPlayed().getName()=="8") {
-	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
-	    					return move;
-	    				}
-	    				else if (move.getCardPlayed().getName()=="9_flip") {
-	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
-	    					return move;
-	    				}
+//	    				else if (move.getCardPlayed().getName()=="9_flip") {
+//	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+//	    					return move;
+//	    				}
     				}
     			}
     		}
