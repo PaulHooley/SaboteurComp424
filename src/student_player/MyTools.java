@@ -56,6 +56,18 @@ public class MyTools {
 		}
 		//////////////////////////////////////////////////////////////////////
     	
+    	Iterator<SaboteurCard> it = myHand.iterator();
+    	List<SaboteurCard> newCards = new ArrayList<>();
+    	while(it.hasNext()) {
+    		SaboteurCard card = it.next();
+    		if (card instanceof SaboteurTile) {
+    			newCards.add(((SaboteurTile) card).getFlipped());
+    		}
+    	}
+    	myHand.addAll(newCards);
+    	for(SaboteurCard card: myHand) {
+    		System.out.println(card.getName());
+    	}
     	for (SaboteurCard card : myHand) { // for all cards in my hand
     		if (card instanceof SaboteurTile) { // if it is a tile card
     			if(((SaboteurTile) card).getPath()[1][1] == 1) { //If there is a through path
