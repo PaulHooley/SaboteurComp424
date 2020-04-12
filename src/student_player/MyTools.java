@@ -15,6 +15,45 @@ public class MyTools {
     	
     	SaboteurMove nextMove = null;
     	double closestMove = Integer.MAX_VALUE;
+    	ArrayList<SaboteurMove> legalMoves = boardState.getAllLegalMoves();
+		/////////////////////////////////////////////////////////////////////
+		// between the long dashed lines is the potential win / close to win case
+		int[] goldLoc = getGold(boardState);
+		int[] goldLoc1 = new int[] {12, 3};
+		int[] goldLoc2 = new int[] {12, 7};
+		if (Arrays.equals(goldLoc, new int[] {-1,-1})) {
+			// potential gold locs
+			goldLoc = new int[] {12,5};
+		}
+		else {
+			// exact gold locs
+			if (goldLoc[1]==3) {
+				goldLoc1 = new int[] {12, 5};
+				goldLoc2 = new int[] {12, 7};
+			}
+			else if (goldLoc[1]==7) {
+				goldLoc1 = new int[] {12, 3};
+				goldLoc2 = new int[] {12, 5};
+			}
+		}
+		for (SaboteurMove potMove : legalMoves) {
+			if (potMove.getCardPlayed() instanceof SaboteurTile) {
+				if (connected(new SaboteurTile("8"), goldLoc, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
+					System.out.println("$$$ $$$ $$$ $$$");
+					return potMove;
+				}
+				else if (connected(new SaboteurTile("8"), goldLoc1, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
+					System.out.println("@@@ @@@ @@@ @@@");
+					return potMove;
+				}
+				else if (connected(new SaboteurTile("8"), goldLoc2, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
+					System.out.println("### ### ### ###");
+					return potMove;
+				}
+			}
+		}
+		//////////////////////////////////////////////////////////////////////
+    	
     	for (SaboteurCard card : myHand) { // for all cards in my hand
     		if (card instanceof SaboteurTile) { // if it is a tile card
     			if(((SaboteurTile) card).getPath()[1][1] == 1) { //If there is a through path
@@ -352,6 +391,22 @@ public class MyTools {
     		}
     	}
     	return false;
+    }
+    
+    public static int[] getGold(SaboteurBoardState boardState) {
+    	SaboteurTile[][] board = boardState.getHiddenBoard();
+    	if (board[12][3].getName()=="nugget") {
+    		return new int[] {12,3};
+    	}
+    	else if (board[12][5].getName()=="nugget") {
+    		return new int[] {12,5};
+    	}
+    	else if (board[12][7].getName()=="nugget") {
+    		return new int[] {12,7};
+    	}
+    	else {
+    		return new int[] {-1,-1};
+    	}
     }
  
 }
