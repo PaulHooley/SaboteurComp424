@@ -70,20 +70,28 @@ public class StudentPlayer extends SaboteurPlayer {
         if (testMove!=null) {
         	return testMove;
         }
+        
+        testMove = MyTools.canWin(boardState, myHand);
+        if (testMove!=null) {
+        	return testMove;
+        }
+        
         // if we have a map and not all hidden tiles are revealed
         testMove = MyTools.haveMap(boardState, myHand, numCards);
         if (testMove!=null) {
         	return testMove;
         }
-        testMove = MyTools.dropGarbage(myHand);
-        if(testMove != null) return testMove;
+        if (boardState.getTurnNumber()<=5) {
+	        testMove = MyTools.dropGarbage(myHand);
+	        if(testMove != null) return testMove;
+        }
 
-        testMove = MyTools.canWin(boardState, myHand);
+        testMove = MyTools.earlyMove(boardState, myHand);
 
         // if we are far enough away from the gold
 
         // if we are close to the gold
-        testMove = MyTools.closestToGold(boardState, myHand);
+        //testMove = MyTools.closestToGold(boardState, myHand);
         return testMove;
 //        // if we are far enough away from the gold
 //        testMove = MyTools.earlyMove(boardState, myHand);

@@ -179,31 +179,51 @@ public class MyTools {
      */
     public static SaboteurMove areMalused(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand, int numMalus, Map<String, Integer> numCards) { 
     	if (numMalus>=1) {
+    		SaboteurMove testMove = haveMap(boardState, myHand, numCards);
     		if (cardIndex( myHand, new SaboteurBonus())!=-1) {
 	    		return new SaboteurMove(new SaboteurBonus(), 0, 0, 260727150);
     		}
-    		else if (cardIndex( myHand, new SaboteurMap())!=-1) {
-	    		SaboteurMove testMove = haveMap(boardState, myHand, numCards);
-	    		if (testMove!=null) {
-	    			return testMove;
-	    		}
-	    		else if (cardIndex(myHand, new SaboteurDestroy())!=-1) {
-	    			return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurDestroy()), 0, 260727150);
-	    		}
-	    		else if (cardIndex(myHand, new SaboteurMalus())!=-1) {
-	    			return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurMalus()), 0, 260727150);
-	    		}
-	    		else {
-	    			return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurMap()), 0, 260727150);
-	    		}
-    		}
-    		else {
-    			return new SaboteurMove(new SaboteurDrop(), 0, 0, 260727150);
-    		}
+    		else if (cardIndex( myHand, new SaboteurMap())!=-1 && testMove!=null) {
+	    		return testMove;
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("1"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("1")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("2"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("2")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("3"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("3")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("4"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("4")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("11"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("11")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("12"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("12")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("13"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("13")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("14"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("14")), 0, 260727150);
+	    	}
+    		else if (cardIndex(myHand, new SaboteurTile("15"))!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurTile("15")), 0, 260727150);
+	    	}
+	    	else if (cardIndex(myHand, new SaboteurDestroy())!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurDestroy()), 0, 260727150);
+	    	}
+	    	else if (cardIndex(myHand, new SaboteurMalus())!=-1) {
+	    		return new SaboteurMove(new SaboteurDrop(), cardIndex(myHand, new SaboteurMalus()), 0, 260727150);
+	    	}	
+	    	else {
+	    		return boardState.getRandomMove();
+	    	}
     	}
-    	else {
-    		return null;
-    	}
+    	return null;
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /*
@@ -486,27 +506,23 @@ public class MyTools {
     		for (int j = 3; j<8; j++) {
     			for (SaboteurMove move : legalMoves) {
     				if (move.getPosPlayed()[0] == i && move.getPosPlayed()[1] == j) {
-	    				if (move.getCardPlayed().getName().contains("0")) {
-	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+	    				if (move.getCardPlayed().getName().equals("Tile:0")) {
 	    					return move;
 	    				}
 	    				else if (move.getCardPlayed().getName().contains("6")) {
-	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
 	    				else if (move.getCardPlayed().getName().contains("8")) {
-	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
 	    				else if (move.getCardPlayed().getName().contains("9_flip")) {
-	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
     				}
     			}
     		}
     	}
-    	return closestToGold(boardState,myHand);
+    	return badMove(boardState,myHand);
     }
     
     public static SaboteurMove canWin(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
@@ -572,7 +588,7 @@ public class MyTools {
 				}
 			}
 		}
-		return earlyMove(boardState, myHand);
+		return null;
     }
 		//////////////////////////////////////////////////////////////////////
  
@@ -584,6 +600,26 @@ public class MyTools {
     		}
     	}
     	return null;
+    }
+    
+    public static SaboteurMove badMove(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
+    	if (cardIndex( myHand, new SaboteurDestroy())!=-1) {
+    		return closestToGold(boardState,myHand);
+    	}
+    	SaboteurTile[][] board = boardState.getHiddenBoard();
+    	for (int i = 11; i>5; i--) {
+    		for (int j = 3; j<8; j++) {
+    			if (board[i][j].getName().equals("Tile:1") || board[i][j].getName().contains("11") ||
+    					board[i][j].getName().contains("4") || board[i][j].getName().contains("15") || board[i][j].getName().contains("2") || board[i][j].getName().contains("3")) {
+    				return new SaboteurMove(new SaboteurDestroy(), i, j, 260727150);
+    			}
+    		}
+    	}
+    	System.out.println("**************************");
+    	System.out.println("**************************");
+    	System.out.println("**************************");
+    	System.out.println("**************************");
+    	return closestToGold(boardState,myHand);
     }
 }
 
