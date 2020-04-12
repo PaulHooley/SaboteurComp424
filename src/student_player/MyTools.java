@@ -341,7 +341,8 @@ public class MyTools {
     }
     public static boolean isElement(SaboteurMove move, ArrayList<SaboteurMove> moves) {
     	for (SaboteurMove tempMove: moves) {
-    		if (move.equals(tempMove) ) {
+    		if (move.getCardPlayed().equals(tempMove.getCardPlayed()) && Arrays.equals(move.getPosPlayed(), (tempMove.getPosPlayed()))) {
+        		System.out.println("%%%%%%%%%%%%");
     			return true;
     		}
     	}
@@ -466,6 +467,39 @@ public class MyTools {
     	else {
     		return new int[] {-1,-1};
     	}
+    }
+    
+    public static SaboteurMove earlyMove(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
+    	ArrayList<SaboteurMove> legalMoves = boardState.getAllLegalMoves();
+    	for (int i = 11; i>5; i--) {
+    		for (int j = 3; j<8; j++) {
+    			for (SaboteurMove move : legalMoves) {
+    				if (Arrays.equals(move.getPosPlayed(), new int[] {i,j})) {
+	    				if (move.getCardPlayed().getName()=="0") {
+	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+	    					return move;
+	    				}
+	    				else if (move.getCardPlayed().getName()=="6") {
+	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+	    					return move;
+	    				}
+	    				else if (move.getCardPlayed().getName()=="6_flip") {
+	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+	    					return move;
+	    				}
+	    				else if (move.getCardPlayed().getName()=="8") {
+	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+	    					return move;
+	    				}
+	    				else if (move.getCardPlayed().getName()=="9_flip") {
+	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+	    					return move;
+	    				}
+    				}
+    			}
+    		}
+    	}
+    	return closestToGold(boardState,myHand);
     }
  
 }

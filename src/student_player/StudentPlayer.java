@@ -76,12 +76,12 @@ public class StudentPlayer extends SaboteurPlayer {
         	return testMove;
         }
         // if we are far enough away from the gold
-        testMove = MyTools.closestToGold(boardState, myHand);
-        if (boardState.getTurnNumber()<=20) {
+        testMove = MyTools.earlyMove(boardState, myHand);
+        if (boardState.getTurnNumber()<=6) {
         	return testMove;
         }
         // if we are close to the gold
-        testMove = MyTools.inTight(boardState, myHand);
+        testMove = MyTools.closestToGold(boardState, myHand);
         return testMove;
 
         // Return your move to be processed by the server
