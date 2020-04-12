@@ -75,7 +75,15 @@ public class StudentPlayer extends SaboteurPlayer {
         if (testMove!=null) {
         	return testMove;
         }
+        testMove = MyTools.dropGarbage(myHand);
+        if(testMove != null) return testMove;
+
         testMove = MyTools.canWin(boardState, myHand);
+
+        // if we are far enough away from the gold
+
+        // if we are close to the gold
+        testMove = MyTools.closestToGold(boardState, myHand);
         return testMove;
 //        // if we are far enough away from the gold
 //        testMove = MyTools.earlyMove(boardState, myHand);

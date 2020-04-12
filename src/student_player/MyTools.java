@@ -39,11 +39,11 @@ public class MyTools {
     		}
     	}
     	myHand.addAll(newCards);
-    	for(SaboteurCard card: myHand) {
-    		System.out.println(card.getName());
-    	}
+    	int totTiles = 0;
+    	List<Integer> disArray = new ArrayList<>();
     	for (SaboteurCard card : myHand) { // for all cards in my hand
     		if (card instanceof SaboteurTile) { // if it is a tile card
+    			totTiles++;
     			if(((SaboteurTile) card).getPath()[1][1] == 1) { //If there is a through path
     				for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) { // for all possible moves using this tile card
     					//Check Each through path of the tile
@@ -63,12 +63,6 @@ public class MyTools {
     					intBoard[tempPos[0] * 3 + 2][tempPos[1] * 3] = intCard[0][0];
     					intBoard[tempPos[0] * 3 + 2][tempPos[1] * 3 + 1] = intCard[1][0];
     					intBoard[tempPos[0] * 3 + 2][tempPos[1] * 3 + 2] = intCard[2][0];
-    					
-
-//    					System.out.println("This is boardGame time");// Print out the board with the new temp card
-//    			        for(int[] row: intBoard) {
-//    			        	System.out.println(Arrays.toString(row));
-//    			        }
     			        
     			        int[][] visitBoard = new int[intBoard.length][intBoard[0].length];
     			        for(int i = 0; i < intBoard.length; i++) {
@@ -76,26 +70,90 @@ public class MyTools {
     			        		visitBoard[i][j] = 0;
     			        	}
     			        }
+//    			        for(int[] row: intBoard) {
+//    			        	System.out.println(Arrays.toString(row));
+//    			        }
+    			        
     			        int tmp = recursiveFindPlay(intBoard, visitBoard, Integer.MAX_VALUE, 17, 17, adjGoldLoc[1], adjGoldLoc[0]);
-    			        //System.out.println("Tmp: " + tmp + " closestMove: "+ closestMove);
+//    			        System.out.println("Tmp: " + tmp + " closestMove: "+ closestMove);
     			        if(closestMove > tmp) {
     			        	closestMove = tmp;
     			        	nextMove = new SaboteurMove(card, tempPos[0], tempPos[1],boardState.getTurnPlayer());
-    			        	System.out.println("Card: " + nextMove.getCardPlayed().getName() + "Pos: " + Arrays.toString(tempPos) );
+//    			        	System.out.println("Card: " + nextMove.getCardPlayed().getName() + " Pos: " + Arrays.toString(tempPos) );
     			        }
+    			        
+    			        if(closestMove == 1 ) {
+    			        	nextMove = canWin(boardState, myHand);
+    			        	break;
+    			        }
+    			        disArray.add(tmp);
     				}
     			}
     		}
     	}
-    	if (nextMove!=null) {
-    		System.out.println("&&& &&& &&& &&&");
-    		return nextMove;
+    	if(disArray.get(0) != null) {
+        	int safety = disArray.get(0);    		
+        	for(int distance: disArray) {
+        		if(distance != safety) {
+        			safety = -1;
+        		}
+        	}
+        	if (nextMove!=null && safety < 0) {
+        		System.out.println("&&& &&& &&& &&&");
+        		return nextMove;
+        	}
+        	else if(nextMove != null) {
+        		nextMove = bestCase(boardState, myHand);
+        		if(nextMove != null) {
+        			return nextMove;
+        		}
+        		else {
+        			return boardState.getRandomMove();
+        		}
+        	}
+        	else {
+        		return boardState.getRandomMove();
+        	}
+    	}else {
+    	
+        	if (nextMove!=null) {
+        		System.out.println("&&& &&& &&& &&&");
+        		return nextMove;
+        	}
+        
+        	else {
+        		return boardState.getRandomMove();
+        	}
     	}
-    	else {
-    		return boardState.getRandomMove();
-    	}
+    	
     }
-    public static double distToGold(int x, int y) {
+    private static SaboteurMove bestCase(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
+    	ArrayList<SaboteurMove> legalMoves = boardState.getAllLegalMoves();
+    	System.out.println("WE being saved");
+    	for (int i = 11; i>5; i--) {
+    		for (int j = 3; j<8; j++) {
+    			for (SaboteurMove move : legalMoves) {
+    				if (move.getPosPlayed()[0] == i && move.getPosPlayed()[1] == j) {
+    				System.out.println(move.getCardPlayed().getName());
+    				
+    					if( 
+    							move.getCardPlayed().getName().equals("Tile:5") ||
+    							move.getCardPlayed().getName().equals("Tile:6") ||
+    							move.getCardPlayed().getName().equals("Tile:6_flip") || 
+    							move.getCardPlayed().getName().equals("Tile:7_flip") || 
+    							move.getCardPlayed().getName().equals("Tile:6_flip") || 
+    							move.getCardPlayed().getName().equals("Tile:8") || 
+    							move.getCardPlayed().getName().equals("Tile:9") || 
+    							move.getCardPlayed().getName().equals("Tile:9_flip")) {
+    						return move;
+    					}
+    				}
+    			}
+    		}
+    	}
+    	return null;
+	}
+	public static double distToGold(int x, int y) {
     	return Math.sqrt( Math.pow(12-x, 2) +  Math.pow(5-y, 2));
     }
    
@@ -335,12 +393,12 @@ public class MyTools {
     	int v3 = Integer.MAX_VALUE;
     	int v4 = Integer.MAX_VALUE;
 //    	System.out.println("x: " + x + " y: " + y + " goldX: " + goldX + " goldY: " + goldY);
-//    	if(x%3 != 1 && y%3 != 1) {
+    	if(x%3 != 2 && y%3 != 2) {
 //    		System.out.println("Changing dist " + x + ", " + y);
         	if(curShortestDistToGold > Math.abs(x-goldX) + Math.abs(y-goldY)) {
         		curShortestDistToGold = Math.abs(x-goldX) + Math.abs(y-goldY);
         	}    		
-//    	}
+    	}
     	
     	if(intBoard[y+1][x] == 1 && visitBoard[y+1][x] != 1) {
     		visitBoard[y+1][x] = 1;
