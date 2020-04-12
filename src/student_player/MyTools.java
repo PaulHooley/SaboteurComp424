@@ -335,9 +335,12 @@ public class MyTools {
     	int v3 = Integer.MAX_VALUE;
     	int v4 = Integer.MAX_VALUE;
 //    	System.out.println("x: " + x + " y: " + y + " goldX: " + goldX + " goldY: " + goldY);
-    	if(curShortestDistToGold > Math.abs(x-goldX) + Math.abs(y-goldY)) {
-    		curShortestDistToGold = Math.abs(x-goldX) + Math.abs(y-goldY);
-    	}
+//    	if(x%3 != 1 && y%3 != 1) {
+//    		System.out.println("Changing dist " + x + ", " + y);
+        	if(curShortestDistToGold > Math.abs(x-goldX) + Math.abs(y-goldY)) {
+        		curShortestDistToGold = Math.abs(x-goldX) + Math.abs(y-goldY);
+        	}    		
+//    	}
     	
     	if(intBoard[y+1][x] == 1 && visitBoard[y+1][x] != 1) {
     		visitBoard[y+1][x] = 1;
@@ -437,7 +440,7 @@ public class MyTools {
 	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
-	    				else if (move.getCardPlayed().getName()=="9_flip") {
+	    				else if (move.getCardPlayed().getName().contains("9_flip")) {
 	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
@@ -515,6 +518,15 @@ public class MyTools {
     }
 		//////////////////////////////////////////////////////////////////////
  
+    public static SaboteurMove dropGarbage(ArrayList<SaboteurCard> myHand) {
+    	for(SaboteurCard card: myHand) {
+    		if(card.getName().equals("Tile:1") || card.getName().contains("11") ||
+    		   card.getName().contains("4") || card.getName().contains("15") || card.getName().contains("2") || card.getName().contains("3")) {
+		   		return new SaboteurMove(new SaboteurDrop(), myHand.indexOf(card), 0, 260727150);    			
+    		}
+    	}
+    	return null;
+    }
 }
 
 
