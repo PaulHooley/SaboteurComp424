@@ -19,6 +19,7 @@ public class MyTools {
 		/////////////////////////////////////////////////////////////////////
 		// between the long dashed lines is the potential win / close to win case
 		int[] goldLoc = getGold(boardState);
+		int[] adjGoldLoc = new int[] {37,17};
 		int[] goldLoc1 = new int[] {12, 3};
 		int[] goldLoc2 = new int[] {12, 7};
 		if (Arrays.equals(goldLoc, new int[] {-1,-1})) {
@@ -27,6 +28,7 @@ public class MyTools {
 		}
 		else {
 			// exact gold locs
+			adjGoldLoc = new int[] {goldLoc[0]*3+2, goldLoc[1]*3+2};
 			if (goldLoc[1]==3) {
 				goldLoc1 = new int[] {12, 5};
 				goldLoc2 = new int[] {12, 7};
@@ -59,7 +61,7 @@ public class MyTools {
     			if(((SaboteurTile) card).getPath()[1][1] == 1) { //If there is a through path
     				for (int[] tempPos: boardState.possiblePositions((SaboteurTile)card)) { // for all possible moves using this tile card
     					//Check Each through path of the tile
-    					System.out.println(card.getName());
+    					//System.out.println(card.getName());
     					int[][] intCard = ((SaboteurTile) card).getPath();
     					
     					//Hardcode the rotate because its pissing me off
@@ -88,17 +90,19 @@ public class MyTools {
     			        		visitBoard[i][j] = 0;
     			        	}
     			        }
-    			        int tmp = recursiveFindPlay(intBoard, visitBoard, Integer.MAX_VALUE, 16, 16, 16, 37);
-    			        System.out.println("Tmp: " + tmp + " closestMove: "+ closestMove);
+    			        int tmp = recursiveFindPlay(intBoard, visitBoard, Integer.MAX_VALUE, 17, 17, adjGoldLoc[1], adjGoldLoc[0]);
+    			        //System.out.println("Tmp: " + tmp + " closestMove: "+ closestMove);
     			        if(closestMove > tmp) {
     			        	closestMove = tmp;
     			        	nextMove = new SaboteurMove(card, tempPos[0], tempPos[1],boardState.getTurnPlayer());
+    			        	System.out.println("Card: " + nextMove.getCardPlayed().getName() + "Pos: " + Arrays.toString(tempPos) );
     			        }
     				}
     			}
     		}
     	}
     	if (nextMove!=null) {
+    		System.out.println("&&& &&& &&& &&&");
     		return nextMove;
     	}
     	else {
@@ -339,20 +343,39 @@ public class MyTools {
     ////////////////////////////
     public static int recursiveFindPlay(int[][] intBoard, int[][] visitBoard, int curShortestDistToGold,int x, int y, int goldX, int goldY) {
     	visitBoard[y][x] = 1;
+    	int v1 = Integer.MAX_VALUE;
+    	int v2 = Integer.MAX_VALUE;
+    	int v3 = Integer.MAX_VALUE;
+    	int v4 = Integer.MAX_VALUE;
 //    	System.out.println("x: " + x + " y: " + y + " goldX: " + goldX + " goldY: " + goldY);
     	if(curShortestDistToGold > Math.abs(x-goldX) + Math.abs(y-goldY)) {
     		curShortestDistToGold = Math.abs(x-goldX) + Math.abs(y-goldY);
     	}
     	
-    	if(intBoard[y+1][x] == 1 && visitBoard[y+1][x] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x, y+1, goldX, goldY));
+    	if(intBoard[y+1][x] == 1 && visitBoard[y+1][x] != 1) {
+    		visitBoard[y+1][x] = 1;
+    		v1 = Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x, y+1, goldX, goldY));
+    		
+    	}
     	
-    	if(intBoard[y][x+1] == 1 && visitBoard[y][x + 1] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x+1, y, goldX, goldY));
+    	if(intBoard[y][x+1] == 1 && visitBoard[y][x + 1] != 1) {
+    		visitBoard[y][x + 1] = 1;
+    		v2 = Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x+1, y, goldX, goldY));
+    	}
     	
-    	if(intBoard[y][x-1] == 1 && visitBoard[y][x - 1] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x-1, y, goldX, goldY));
+    	if(intBoard[y][x-1] == 1 && visitBoard[y][x - 1] != 1) {
+    		visitBoard[y][x - 1] = 1;
+    		v3 = Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x-1, y, goldX, goldY));
+    	}
     	
-    	if(intBoard[y-1][x] == 1 && visitBoard[y-1][x] != 1) return Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x, y-1, goldX, goldY));
-
-    	return curShortestDistToGold;
+    	if(intBoard[y-1][x] == 1 && visitBoard[y-1][x] != 1) {
+    		visitBoard[y-1][x] = 1;
+    		v4 = Math.min(curShortestDistToGold, recursiveFindPlay(intBoard, visitBoard, curShortestDistToGold, x, y-1, goldX, goldY));
+    	}
+    	int v5 = Math.min(v1, v2);
+    	int v6 = Math.min(v3, v4);
+    	int v = Math.min(v5, v6);
+    	return v;
     }
     /////////////////////////////////////////
     /*
