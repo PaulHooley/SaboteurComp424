@@ -20,8 +20,6 @@ public class MyTools {
 		// between the long dashed lines is the potential win / close to win case
 		int[] goldLoc = getGold(boardState);
 		int[] adjGoldLoc = new int[] {37,17};
-		int[] goldLoc1 = new int[] {12, 3};
-		int[] goldLoc2 = new int[] {12, 7};
 		if (Arrays.equals(goldLoc, new int[] {-1,-1})) {
 			// potential gold locs
 			goldLoc = new int[] {12,5};
@@ -29,54 +27,6 @@ public class MyTools {
 		else {
 			// exact gold locs
 			adjGoldLoc = new int[] {goldLoc[0]*3+2, goldLoc[1]*3+2};
-			if (goldLoc[1]==3) {
-				goldLoc1 = new int[] {12, 5};
-				goldLoc2 = new int[] {12, 7};
-			}
-			else if (goldLoc[1]==7) {
-				goldLoc1 = new int[] {12, 3};
-				goldLoc2 = new int[] {12, 5};
-			}
-		}
-		int touchH = 0;
-		for (SaboteurMove potMove : legalMoves) {
-			if (potMove.getCardPlayed() instanceof SaboteurTile) {
-				if (connected(new SaboteurTile("8"), goldLoc, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
-					for (int[] surr : surr(goldLoc, boardState)) {
-						if  (boardState.getHiddenBoard()[surr[0]][surr[1]]!=null) {
-							touchH+=1;
-						}
-					}
-					if (touchH==0) {
-						System.out.println("$$$ $$$ $$$ $$$");
-						return potMove;
-					}
-				}
-				touchH=0;
-				if (connected(new SaboteurTile("8"), goldLoc1, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
-					for (int[] surr : surr(goldLoc1, boardState)) {
-						if  (boardState.getHiddenBoard()[surr[0]][surr[1]]!=null) {
-							touchH+=1;
-						}
-					}
-					if (touchH==0) {
-						System.out.println("@@@ @@@ @@@ @@@");
-						return potMove;
-					}
-				}
-				touchH=0;
-				if (connected(new SaboteurTile("8"), goldLoc2, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
-					for (int[] surr : surr(goldLoc2, boardState)) {
-						if  (boardState.getHiddenBoard()[surr[0]][surr[1]]!=null) {
-							touchH+=1;
-						}
-					}
-					if (touchH==0) {
-						System.out.println("### ### ### ###");
-						return potMove;
-					}
-				}
-			}
 		}
 		//////////////////////////////////////////////////////////////////////
     	
@@ -483,24 +433,87 @@ public class MyTools {
 	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
-//	    				else if (move.getCardPlayed().getName()=="6_flip") {
-//	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
-//	    					return move;
-//	    				}
 	    				else if (move.getCardPlayed().getName().contains("8")) {
 	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
 	    					return move;
 	    				}
-//	    				else if (move.getCardPlayed().getName()=="9_flip") {
-//	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
-//	    					return move;
-//	    				}
+	    				else if (move.getCardPlayed().getName()=="9_flip") {
+	    					System.out.println("^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^");
+	    					return move;
+	    				}
     				}
     			}
     		}
     	}
     	return closestToGold(boardState,myHand);
     }
+    
+    public static SaboteurMove canWin(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
+    	
+    	ArrayList<SaboteurMove> legalMoves = boardState.getAllLegalMoves();
+		/////////////////////////////////////////////////////////////////////
+		// between the long dashed lines is the potential win / close to win case
+		int[] goldLoc = getGold(boardState);
+		int[] goldLoc1 = new int[] {12, 3};
+		int[] goldLoc2 = new int[] {12, 7};
+		if (Arrays.equals(goldLoc, new int[] {-1,-1})) {
+			// potential gold locs
+			goldLoc = new int[] {12,5};
+		}
+		else {
+			// exact gold locs
+			if (goldLoc[1]==3) {
+				goldLoc1 = new int[] {12, 5};
+				goldLoc2 = new int[] {12, 7};
+			}
+			else if (goldLoc[1]==7) {
+				goldLoc1 = new int[] {12, 3};
+				goldLoc2 = new int[] {12, 5};
+			}
+		}
+		int touchH = 0;
+		for (SaboteurMove potMove : legalMoves) {
+			if (potMove.getCardPlayed() instanceof SaboteurTile) {
+				if (connected(new SaboteurTile("8"), goldLoc, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
+					for (int[] surr : surr(goldLoc, boardState)) {
+						if  (boardState.getHiddenBoard()[surr[0]][surr[1]]!=null) {
+							touchH+=1;
+						}
+					}
+					if (touchH<=1) {
+						System.out.println("$$$ $$$ $$$ $$$");
+						return potMove;
+					}
+				}
+				touchH=0;
+				if (connected(new SaboteurTile("8"), goldLoc1, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
+					for (int[] surr : surr(goldLoc1, boardState)) {
+						if  (boardState.getHiddenBoard()[surr[0]][surr[1]]!=null) {
+							touchH+=1;
+						}
+					}
+					if (touchH<=1) {
+						System.out.println("@@@ @@@ @@@ @@@");
+						return potMove;
+					}
+				}
+				touchH=0;
+				if (connected(new SaboteurTile("8"), goldLoc2, (SaboteurTile)potMove.getCardPlayed(), potMove.getPosPlayed())) {
+					for (int[] surr : surr(goldLoc2, boardState)) {
+						if  (boardState.getHiddenBoard()[surr[0]][surr[1]]!=null) {
+							touchH+=1;
+						}
+					}
+					if (touchH<=1) {
+						System.out.println("### ### ### ###");
+						return potMove;
+					}
+				}
+			}
+		}
+		return earlyMove(boardState, myHand);
+    }
+		//////////////////////////////////////////////////////////////////////
  
 }
 

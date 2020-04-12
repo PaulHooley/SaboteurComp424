@@ -59,10 +59,10 @@ public class StudentPlayer extends SaboteurPlayer {
     	/////////////////////////////////////
     	
     	//////////////////////////////////
-    	int[] gold = {-1, -1, -1};
-        Boolean goldKnown = false;
-        Boolean malus = false;
-        Boolean opponentMalus = false;
+//    	int[] gold = {-1, -1, -1};
+//        Boolean goldKnown = false;
+//        Boolean malus = false;
+//        Boolean opponentMalus = false;
     	///////////////////////////////////
 
         // If we are malused
@@ -75,14 +75,16 @@ public class StudentPlayer extends SaboteurPlayer {
         if (testMove!=null) {
         	return testMove;
         }
-        // if we are far enough away from the gold
-        testMove = MyTools.earlyMove(boardState, myHand);
-        if (boardState.getTurnNumber()<=6) {
-        	return testMove;
-        }
-        // if we are close to the gold
-        testMove = MyTools.closestToGold(boardState, myHand);
+        testMove = MyTools.canWin(boardState, myHand);
         return testMove;
+//        // if we are far enough away from the gold
+//        testMove = MyTools.earlyMove(boardState, myHand);
+//        if (boardState.getTurnNumber()<=20) {
+//        	return testMove;
+//        }
+//        // if we are close to the gold
+//        testMove = MyTools.closestToGold(boardState, myHand);
+//        return testMove;
 
         // Return your move to be processed by the server
     	
