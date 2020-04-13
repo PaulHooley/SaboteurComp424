@@ -78,7 +78,7 @@ public class MyTools {
 //    			        System.out.println("Tmp: " + tmp + " closestMove: "+ closestMove);
     			        if(closestMove > tmp) {
     			        	closestMove = tmp;
-    			        	nextMove = new SaboteurMove(card, tempPos[0], tempPos[1],boardState.getTurnPlayer());
+    			        	nextMove = new SaboteurMove(card, tempPos[0], tempPos[1],260727150);
 //    			        	System.out.println("Card: " + nextMove.getCardPlayed().getName() + " Pos: " + Arrays.toString(tempPos) );
     			        }
     			        
