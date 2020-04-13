@@ -631,7 +631,7 @@ public class MyTools {
     }
     
     public static SaboteurMove badMove(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
-    	if (cardIndex( myHand, new SaboteurDestroy())!=-1) {
+    	if (cardIndex( myHand, new SaboteurDestroy())==-1) {
     		return closestToGold(boardState,myHand);
     	}
     	SaboteurTile[][] board = boardState.getHiddenBoard();
@@ -643,10 +643,6 @@ public class MyTools {
     			}
     		}
     	}
-    	System.out.println("**************************");
-    	System.out.println("**************************");
-    	System.out.println("**************************");
-    	System.out.println("**************************");
     	return closestToGold(boardState,myHand);
     }
 }
