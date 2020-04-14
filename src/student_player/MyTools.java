@@ -645,6 +645,38 @@ public class MyTools {
     	}
     	return closestToGold(boardState,myHand);
     }
+    
+    public static SaboteurMove twoAway(SaboteurBoardState boardState, ArrayList<SaboteurCard> myHand) {
+    	
+    	int[][] intBoard = boardState.getHiddenIntBoard();
+    	
+    	int[][] visitBoard = new int[intBoard.length][intBoard[0].length];
+        for(int i = 0; i < intBoard.length; i++) {
+        	for(int j = 0; j < intBoard[0].length; j++) {
+        		visitBoard[i][j] = 0;
+        	}
+        }
+        
+        int[] goldLoc = getGold(boardState);
+		int[] adjGoldLoc = new int[] {37,17};
+		if (Arrays.equals(goldLoc, new int[] {-1,-1})) {
+			// potential gold locs
+			goldLoc = new int[] {12,5};
+		}
+		else {
+			// exact gold locs
+			adjGoldLoc = new int[] {goldLoc[0]*3+2, goldLoc[1]*3+2};
+		}
+        
+    	int distToGold = recursiveFindPlay(intBoard, visitBoard, Integer.MAX_VALUE, 17, 17, adjGoldLoc[1], adjGoldLoc[0]);
+    	System.out.println("Dist: " + distToGold + "HaveMalus: " + cardIndex(myHand, new SaboteurMalus()));
+    	if (distToGold > 4 && distToGold < 8 && cardIndex(myHand, new SaboteurMalus())!=-1) {
+    		return new SaboteurMove(new SaboteurMalus(), 0, 0, 260727150);
+    	}
+    	else {
+    		return null;
+    	}
+    }
 }
 
 

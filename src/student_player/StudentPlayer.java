@@ -65,12 +65,18 @@ public class StudentPlayer extends SaboteurPlayer {
 //        Boolean opponentMalus = false;
     	///////////////////////////////////
 
-        // If we are malused
-        SaboteurMove testMove = MyTools.areMalused(boardState, myHand, numMalus, numCards);
+        
+    	SaboteurMove testMove = MyTools.twoAway(boardState, myHand);
         if (testMove!=null) {
         	return testMove;
         }
         
+        // If we are malused
+        testMove = MyTools.areMalused(boardState, myHand, numMalus, numCards);
+        if (testMove!=null) {
+        	return testMove;
+        }
+        // if we can play to win
         testMove = MyTools.canWin(boardState, myHand);
         if (testMove!=null) {
         	return testMove;
