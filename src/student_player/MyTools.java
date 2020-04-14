@@ -659,7 +659,7 @@ public class MyTools {
         
         int[] goldLoc = getGold(boardState);
 		int[] adjGoldLoc = new int[] {37,17};
-		if (Arrays.equals(goldLoc, new int[] {-1,-1})) {
+		if (goldLoc[0] == -1 && goldLoc[1] == -1) {
 			// potential gold locs
 			goldLoc = new int[] {12,5};
 		}
