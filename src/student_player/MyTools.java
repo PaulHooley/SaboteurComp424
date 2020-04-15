@@ -670,8 +670,13 @@ public class MyTools {
         
     	int distToGold = recursiveFindPlay(intBoard, visitBoard, Integer.MAX_VALUE, 17, 17, adjGoldLoc[1], adjGoldLoc[0]);
     	System.out.println("Dist: " + distToGold + "HaveMalus: " + cardIndex(myHand, new SaboteurMalus()));
-    	if (distToGold > 4 && distToGold < 8 && cardIndex(myHand, new SaboteurMalus())!=-1) {
-    		return new SaboteurMove(new SaboteurMalus(), 0, 0, 260727150);
+    	if (distToGold > 4 && distToGold < 8) {
+    		if (cardIndex(myHand, new SaboteurMalus())!=-1) {
+    			return new SaboteurMove(new SaboteurMalus(), 0, 0, 260727150);
+    		}
+    		else {
+    			return boardState.getRandomMove();
+    		}
     	}
     	else {
     		return null;
